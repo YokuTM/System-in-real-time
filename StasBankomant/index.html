@@ -1,0 +1,956 @@
+<!DOCTYPE hyml>
+<html lang="ru">
+    <head>
+        <title>Банкомат</title>
+        <link rel="shortcut icon" href="sber.png" type="image/png">
+        <meta charset="utf-8">
+        <style>
+            table {
+             width: 100%; /* Ширина таблицы */
+             border-spacing: 1px; /* Расстояние между ячейками */
+            }
+            .table1{
+                overflow: auto;
+                position : absolute ;
+                 width: 790px; 
+                 height: 300px; 
+                 top: 600px; 
+                 left: 200px;
+            
+            }
+            /* Прокрутка таблицы2, работает криво, но работает */
+            .table2{
+                overflow: auto;
+                width: 500px;
+                height:450px;
+                padding: 5px;
+                position: absolute;
+                top: 100px; 
+                left: 1000px;
+            
+            }
+             th {
+             background:green; /* Цвет фона ячеек */
+             padding: 5px; /* Поля вокруг текста */
+            }
+            td {
+             background: rgb(200, 255, 0); /* Цвет фона ячеек */
+             padding: 5px; /* Поля вокруг текста */
+            }
+            .button1 {
+                border-radius: 50%;
+                background: red;
+            }
+           </style>
+    </head>
+    </head>
+    <body bgcolor="#00bfff">
+        <div id="clock" style="position : absolute ; font-size: 25; top: 150px; left: 295px; z-index: 1;"></div>
+        <!-- таблица -->
+        <div class="table1">
+        <table id="table" border="2" >
+            <tr>
+                <th>№</th>
+                <th>Время транзакции</th>
+                <th>Тип операции</th>
+                <th>Затраты</th>
+                <th>Заработано</th>
+                <th>Tерминал</th>
+            </tr>
+        </table>
+    </div>
+        <div class="table2" >
+        <table id="table2" border="2" >
+            <!--  width: 500px; height: 50px; top: 200px; left: 1000px; overflow: scroll;" -->
+            <tr>
+                <th>Кол-во транзакций</th>
+                <th>Затраты</th>
+                <th>Заработано</th>
+                <th>Прибыль</th>
+                <th>Tерминал</th>
+            </tr>
+        </table>
+    </div>
+          <!-- Картинка -->
+        <img id="terminal" src="terminal.png" style="position : absolute ; width: 900px; height: 500px; top: 75px; left: 200px;"> <!--рисунок терминала-->
+        <img id="pin" src="pin.png" style="position : absolute ;width: 150px; height: 150px; top: -240px; left: 395px;"> <!--окно ввода пин-кода-->
+        <img id="ekr" src="02.png" style="position : absolute ;width: 400px; height: 265px; top: 150px; left: 290px;"> <!--окно до пользования терминалом-->
+        <img id="bl" src="block.png" style="position : absolute ;width: 400px; height: 265px; top: -1150px; left: 290px;"> <!--окно блокировки-->
+        <img id="us" src="user.png" style="position : absolute ;width: 400px; height: 265px; top: -1150px; left: 290px;"> <!--окно юзера-->
+        <!-- Кнопки -->
+        <button onclick="one();"  style="position : absolute; width: 30px; height: 30px; top: 230px; left: 740px;">1</button>
+        <button onclick="two();"  style="position : absolute; width: 30px; height: 30px; top: 230px; left: 770px;">2</button>
+        <button onclick="three();"  style="position : absolute; width: 30px; height: 30px; top: 230px; left: 800px;">3</button>
+        <button onclick="four();"  style="position : absolute; width: 30px; height: 30px; top: 260px; left: 740px;">4</button>
+        <button onclick="five();"  style="position : absolute; width: 30px; height: 30px; top: 260px; left: 770px;">5</button>
+        <button onclick="six();"  style="position : absolute; width: 30px; height: 30px; top: 260px; left: 800px;">6</button>
+        <button onclick="seven();"  style="position : absolute; width: 30px; height: 30px; top: 290px; left: 740px;">7</button>
+        <button onclick="eigh();"  style="position : absolute; width: 30px; height: 30px; top: 290px; left: 770px;">8</button>
+        <button onclick="nine();"  style="position : absolute; width: 30px; height: 30px; top: 290px; left: 800px;">9</button>
+        <button onclick="del();"  style="position : absolute; width: 30px; height: 30px; top: 320px; left: 740px;"><-</button> <!--удалить символ-->
+        <button onclick="zero();"  style="position : absolute; width: 30px; height: 30px; top: 320px; left: 770px;">0</button> 
+        <button onclick="enter();"  style="position : absolute; width: 30px; height: 30px; top: 320px; left: 800px;">✓</button> 
+        <button onclick="broke();"  style="position : absolute; width: 70px; height: 30px; top: 500px; left: 900px;">Сломать</button> 
+        <button onclick="sos();" class="button1"  style="position : absolute; width: 40px; height: 40px; top: 350px; left: 900px;">SOS</button> 
+        <button onclick="card();"  style="position : absolute; width: 90px; height: 30px; top: 400px; left: 740px;"><img src="card.png" style="position : absolute; width: 100px; height: 100px; top: -10px; left: -10px;"></button> <!--вставить карту-->
+        <button onclick="cash();"  style="position : absolute; width: 90px; height: 30px; top: 450px; left: 300px;"><img src="card.png" style="position : absolute; width: 400px; height: 100px; top: -10px; left: -10px;"></button> <!--вставить деньги-->
+        <button onclick="prib();"  style="position : absolute; width: 100px; height: 30px; top: 30px; left: 1040px;">Прибыль №1</button>
+        <button onclick="zapusk();"  style="position : absolute; width: 100px; height: 30px; top: 30px; left: 1200px;">Запустить</button>
+        <button onclick="ostanovka();"  style="position : absolute;  width: 100px; height: 30px; top: 30px; left: 1340px;">Остановить</button>
+        <!-- Кнопки которые двигаю -->
+        <button id="vihod" onclick="vih();"  style="position : absolute; width: 30px; height: 30px; top: -160px; left: 640px;">-></button> <!--выход из программы-->
+        <button id="ex" onclick="exit();"  style="position : absolute; width: 100px; height: 50px; top: -320px; left: 550px;">Удалить карту</button> 
+        <button id="mai" onclick="main();"  style="position : absolute; width: 100px; height: 50px; top: -320px; left: 550px;">Зачислить</button>
+        <button id="pl" onclick="plus();"  style="position : absolute; width: 100px; height: 50px; top: -320px; left: 550px;">Пополнить</button>
+        <button id="min" onclick="minus();"  style="position : absolute; width: 100px; height: 50px; top: -320px; left: 350px;">Снять</button>
+        <!-- Суммы для снятия -->
+        <button id="sto" onclick="stor();"  style="position : absolute; width: 100px; height: 50px; top: -320px; left: 350px;">100</button>
+        <button id="pytsot" onclick="pytsotr();"  style="position : absolute; width: 100px; height: 50px; top: -320px; left: 550px;">500</button>
+        <button id="tisyacha" onclick="tisyachar();"  style="position : absolute; width: 100px; height: 50px; top: -320px; left: 350px;">1000</button>
+        <!-- Выводы инфы -->
+        <p id ="info" style="position : absolute ; top: 180px; left: 400px; font-size: 70;">
+            
+       </p>
+       <p id ="vvod" style="position : absolute ; top: 155px; left: 395px; font-size: 25;">
+            
+        </p>
+        <p id ="prosto" style="position : absolute ; top: 380px; left: 860px; font-size: 15;">
+            Вызов менеджера
+        </p>
+        <p id ="infomoney" style="position : absolute ; top: 300px; left: 570px; font-size: 20;">
+           
+        </p>
+        <p id ="priblobshaya" style="position : absolute ; top: 90px; left: 1600px; font-size: 20;">
+           Общая прибыль: 0₽
+        </p>
+        <script>
+            //Часы
+            window.onload=function(){
+                window.setInterval(function(){
+                var now = new Date();
+                var clock = document.getElementById("clock");
+                clock.innerHTML=now.toLocaleTimeString();
+
+                }, 1000);
+            };
+            //Переменные
+            var num=0;//pin code
+            var a=0;//вставлена карта или нет
+            var block=0;//кол-во попыток ввода пин-кода
+            var money=5000;//деньги на счету
+            var b=0;//активация пополнения денег
+            var moneyy=0;//ввод денег
+            var cum=0;//комиссия 
+            var pribl=0;//прибыль
+            var data=new Date();//время
+            var zatr=0;//затраты
+            var numb=0;//нумерация таблицы
+            var electro=(5.52*2.45);//формула расчета электричества P=V*T
+            var nachal=0;//начало работы
+            var problem=0;//ошибка
+            var kit=0;//ремонт
+            var sotka=10;//кол-во 100
+            var pytisotka=2;//кол-во 500
+            var tisychnaya=2;//кол-во 1000
+            //Переменные для системы
+            var num2=0;
+            var pribl2=0;
+            var zatr2=0;
+            var kit2=0;
+            var num3=0;
+            var pribl3=0;
+            var zatr3=0;
+            var kit3=0;
+            var start=0;//Параметр для антизацикливания
+            var con=0;//Общая прибыль
+
+            //Функция выхода вообще
+            function vih(){
+                num=0;
+                a=0;
+                block=0;
+                money=0;
+                b=0;
+                moneyy=0;
+                alert ("Заберите карту");
+                pl.style.top="-320px";
+                min.style.top="-320px";
+                pin.style.top="-320px";
+                ekr.style.top="150px";
+                vihod.style.top="-320px";
+                us.style.top="-320px";
+                mai.style.top="-320px";
+                sto.style.top="-235px";
+                pytsot.style.top="-235px";
+                tisyacha.style.top="-300px";
+
+                document.getElementById("info").innerHTML="";
+                document.getElementById("vvod").innerHTML="";
+                document.getElementById("infomoney").innerHTML="";
+            }
+            //1
+            function one(){
+                if(a==1){
+                if (num==""){
+                num='1';}
+                else{
+                    num=num+"1";}
+                 if (num.length==1){
+                 document.getElementById("info").innerHTML="*";
+                 }
+                 if (num.length==2){
+                 document.getElementById("info").innerHTML="**";
+                 }
+                 if (num.length==3){
+                 document.getElementById("info").innerHTML="***";
+                 }
+                 if (num.length==4){
+                 document.getElementById("info").innerHTML="****";
+                 }
+                }else{alert("Встевьте карту")}
+            }
+            //2
+            function two(){
+                if(a==1){
+                if (num==""){
+                num='2';}
+                else{
+                    num=num+"2";}
+                 if (num.length==1){
+                 document.getElementById("info").innerHTML="*";
+                 }
+                 if (num.length==2){
+                 document.getElementById("info").innerHTML="**";
+                 }
+                 if (num.length==3){
+                 document.getElementById("info").innerHTML="***";
+                 }
+                 if (num.length==4){
+                 document.getElementById("info").innerHTML="****";
+                 }
+                }else{alert("Встевьте карту")}
+            }
+            //3
+            function three(){
+                if(a==1){
+                if (num==""){
+                num='3';}
+                else{
+                    num=num+"3";}
+                 if (num.length==1){
+                 document.getElementById("info").innerHTML="*";
+                 }
+                 if (num.length==2){
+                 document.getElementById("info").innerHTML="**";
+                 }
+                 if (num.length==3){
+                 document.getElementById("info").innerHTML="***";
+                 }
+                 if (num.length==4){
+                 document.getElementById("info").innerHTML="****";
+                 }
+                }else{alert("Встевьте карту")}
+            }
+            //4
+            function four(){
+                if(a==1){
+                if (num==""){
+                num='4';}
+                else{
+                    num=num+"4";}
+                 if (num.length==1){
+                 document.getElementById("info").innerHTML="*";
+                 }
+                 if (num.length==2){
+                 document.getElementById("info").innerHTML="**";
+                 }
+                 if (num.length==3){
+                 document.getElementById("info").innerHTML="***";
+                 }
+                 if (num.length==4){
+                 document.getElementById("info").innerHTML="****";
+                 }
+                }else{alert("Встевьте карту")}
+            }
+            //5
+            function five(){
+                if(a==1){
+                if (num==""){
+                num='5';}
+                else{
+                    num=num+"5";}
+                 if (num.length==1){
+                 document.getElementById("info").innerHTML="*";
+                 }
+                 if (num.length==2){
+                 document.getElementById("info").innerHTML="**";
+                 }
+                 if (num.length==3){
+                 document.getElementById("info").innerHTML="***";
+                 }
+                 if (num.length==4){
+                 document.getElementById("info").innerHTML="****";
+                 }
+                }else{alert("Встевьте карту")}
+            }
+            //6
+            function six(){
+                if(a==1){
+                if (num==""){
+                num='6';}
+                else{
+                    num=num+"6";}
+                 if (num.length==1){
+                 document.getElementById("info").innerHTML="*";
+                 }
+                 if (num.length==2){
+                 document.getElementById("info").innerHTML="**";
+                 }
+                 if (num.length==3){
+                 document.getElementById("info").innerHTML="***";
+                 }
+                 if (num.length==4){
+                 document.getElementById("info").innerHTML="****";
+                 }
+                }else{alert("Встевьте карту")}
+            }
+            //7
+            function seven(){
+                if(a==1){
+                if (num==""){
+                num='7';}
+                else{
+                    num=num+"7";}
+                 if (num.length==1){
+                 document.getElementById("info").innerHTML="*";
+                 }
+                 if (num.length==2){
+                 document.getElementById("info").innerHTML="**";
+                 }
+                 if (num.length==3){
+                 document.getElementById("info").innerHTML="***";
+                 }
+                 if (num.length==4){
+                 document.getElementById("info").innerHTML="****";
+                 }
+                }else{alert("Встевьте карту")}
+            }
+            //8
+            function eigh(){
+                if(a==1){
+                if (num==""){
+                num='8';}
+                else{
+                    num=num+"8";}
+                 if (num.length==1){
+                 document.getElementById("info").innerHTML="*";
+                 }
+                 if (num.length==2){
+                 document.getElementById("info").innerHTML="**";
+                 }
+                 if (num.length==3){
+                 document.getElementById("info").innerHTML="***";
+                 }
+                 if (num.length==4){
+                 document.getElementById("info").innerHTML="****";
+                 }
+                }else{alert("Встевьте карту")}
+            }
+            //9
+            function nine(){
+                if(a==1){
+                if (num==""){
+                num='9';}
+                else{
+                    num=num+"9";}
+                 if (num.length==1){
+                 document.getElementById("info").innerHTML="*";
+                 }
+                 if (num.length==2){
+                 document.getElementById("info").innerHTML="**";
+                 }
+                 if (num.length==3){
+                 document.getElementById("info").innerHTML="***";
+                 }
+                 if (num.length==4){
+                 document.getElementById("info").innerHTML="****";
+                 }
+                }else{alert("Встевьте карту")}
+            }
+            //0
+            function zero(){
+                if(a==1){
+                if (num==""){
+                num='0';}
+                else{
+                    num=num+"0";}
+                 if (num.length==1){
+                 document.getElementById("info").innerHTML="*";
+                 }
+                 if (num.length==2){
+                 document.getElementById("info").innerHTML="**";
+                 }
+                 if (num.length==3){
+                 document.getElementById("info").innerHTML="***";
+                 }
+                 if (num.length==4){
+                 document.getElementById("info").innerHTML="****";
+                 }
+                }else{alert("Встевьте карту")}
+            }
+            //удаляет последний символ в пин-коде
+            function del(){
+                if (num.length==1){
+                    num=num.substring(0, num.length-1);
+                 document.getElementById("info").innerHTML="";
+                 }
+                 if (num.length==2){
+                    num=num.substring(0, num.length-1);
+                 document.getElementById("info").innerHTML="*";
+                 }
+                 if (num.length==3){
+                    num=num.substring(0, num.length-1);
+                 document.getElementById("info").innerHTML="**";
+                 }
+                 if (num.length==4){
+                    num=num.substring(0, num.length-1);
+                 document.getElementById("info").innerHTML="***";
+                 }
+                
+            }
+            function enter(){
+                if(a==1){
+                if(block<3){
+                if (Number(num)==1234){
+                    alert("Добро пожаловать, Станислав");
+                    document.getElementById("info").innerHTML="";
+                    document.getElementById("vvod").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                }
+                else{
+                    block++;
+                    alert ("Неверный пин-код:"+block);
+                    num="";
+                    document.getElementById("info").innerHTML="";
+                    if (block==3){enter();}
+                }
+            }
+            else{ 
+                //alert("Карта заблокирована");
+                document.getElementById("info").innerHTML="";
+                document.getElementById("vvod").innerHTML="";
+                vihod.style.top="-160px";
+                pin.style.top="-240px";
+                bl.style.top="150px";
+                ex.style.top="320px";
+            }
+            }else{alert("Встевьте карту")}
+            }
+            //Карта
+            function card(){
+                if (problem!=1){
+                var random=Math.floor(Math.random()*3);
+                    if (random!=0){
+                        if (a!=1){
+                        vihod.style.top="160px";
+                        alert("Введите пин-код");
+                        pin.style.top="240px";
+                        ekr.style.top="-340px";
+                        document.getElementById("vvod").innerHTML="Введите пин-код:";
+                        a=1;
+                        }else {alert("Карта уже вставлена");
+                    }
+                    } else{
+                        alert ("Карту зажевало, позовите сотрудника");
+                        problem=1;
+                    }
+                } else {
+                    alert ("Карту зажевало, ПОЗОВИТЕ СОТРУДНИКА");
+                }
+            }
+            function exit(){
+                a=0;
+                bl.style.top="-340px";
+                ekr.style.top="150px";
+                ex.style.top="-320px";
+                block=0;
+                num="";
+            }
+            function plus(){
+                if (problem!=2){
+                pl.style.top="-320px";
+                min.style.top="-320px";
+                document.getElementById("vvod").innerHTML="Вставьте деньги<br>Введено: "+moneyy;
+                mai.style.top="320px";
+                b=1;
+                } else {
+                    alert ("Нельзя пополнить деньги, купюроприемник сломан:(");
+                }
+
+            }
+            function minus(){
+                if (problem!=2){
+                pl.style.top="-320px";
+                min.style.top="-320px";
+                document.getElementById("vvod").innerHTML="Выберете сумму<br>(комиссия 5%):";
+                document.getElementById("infomoney").innerHTML="100:"+sotka+"<br>"+"500:"+pytisotka+"<br>"+"1000:"+tisychnaya;
+                sto.style.top="235px";
+                pytsot.style.top="235px";
+                tisyacha.style.top="300px";
+            } else {
+                    alert ("Нельзя снять деньги, купюроприемник сломан:(");
+                }
+                
+            }
+            function cash(){
+                if (b==1){
+                    moneyy=moneyy+100;
+                    sotka=sotka+1;
+                    plus();
+                }
+            }
+            function main(){
+                    document.getElementById("info").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    money=money+moneyy;
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    mai.style.top="-320px";
+                    moneyy=0;
+                    b=0;
+            }
+            //Снятие 100р
+            function stor(){
+                if (sotka>0){
+                if (money>=105){
+                    alert("Заберите деньги");
+                    money=money-105;
+                    cum=cum+5;
+                    document.getElementById("info").innerHTML="";
+                    document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+                    data=new Date();
+                     numb=numb+1;
+                     if (numb==1){
+                         nachal=data.getHours();
+                     }
+                     pribl=pribl+5;
+                     if (data.getMinutes()<10){
+                         add_row(numb,data.getHours()+":0"+data.getMinutes(),"Комиссия",electro,"5","1");
+                     }
+                     else{
+                         add_row(numb,data.getHours()+":"+data.getMinutes(),"Комиссия",electro,"5","1");
+                                     }
+                }else {
+                    alert ("Недостаточно средств");
+                    document.getElementById("info").innerHTML="";
+                    document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+            
+            }
+            sotka=sotka-1;
+            } else {
+                alert ("Извините нет подходящих купюр");
+                problem=3;
+                document.getElementById("info").innerHTML="";
+                document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+            }
+            }
+            //Снятие 500р
+            function pytsotr(){
+                if (pytisotka>0){
+                if (money>=525){
+                    alert("Заберите деньги");
+                    money=money-525;
+                    cum=cum+25;
+                    document.getElementById("info").innerHTML="";
+                    document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+                     data=new Date();
+                     numb=numb+1;
+                     if (numb==1){
+                         nachal=data.getHours();
+                     }
+                     pribl=pribl+25;
+                     if (data.getMinutes()<10){
+                         add_row(numb,data.getHours()+":0"+data.getMinutes(),"Комиссия",electro,"25","1");
+                     }
+                     else{
+                         add_row(numb,data.getHours()+":"+data.getMinutes(),"Комиссия",electro,"25","1");
+                                     }
+                    pytisotka=pytisotka-1;
+
+                }else {
+                    alert ("Недостаточно средств");
+                    document.getElementById("info").innerHTML="";
+                    document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+            
+            }
+            } else if (sotka>4){
+                alert ("Выдача будет произведена мелкими купюрами");
+                if (money>=525){
+                    alert("Заберите деньги");
+                    money=money-525;
+                    cum=cum+25;
+                    document.getElementById("info").innerHTML="";
+                    document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+                     data=new Date();
+                     numb=numb+1;
+                     if (numb==1){
+                         nachal=data.getHours();
+                     }
+                     pribl=pribl+25;
+                     if (data.getMinutes()<10){
+                         add_row(numb,data.getHours()+":0"+data.getMinutes(),"Комиссия",electro,"25","1");
+                     }
+                     else{
+                         add_row(numb,data.getHours()+":"+data.getMinutes(),"Комиссия",electro,"25","1");
+                                     }
+                    sotka=sotka-5;
+
+                }else {
+                    alert ("Недостаточно средств");
+                    document.getElementById("info").innerHTML="";
+                    document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+            
+            }
+
+            }else {
+                alert ("Извините нет подходящих купюр");
+                document.getElementById("info").innerHTML="";
+                document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+            }
+            }
+            //Снятие 1000р
+            function tisyachar(){
+                if (tisychnaya>0){
+                if (money>=1050){
+                    alert("Заберите деньги");
+                    money=money-1050;
+                    cum=cum+50;
+                    document.getElementById("info").innerHTML="";
+                    document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+                    data=new Date();
+                    numb=numb+1;
+                    if (numb==1){
+                         nachal=data.getHours();
+                     }
+                    pribl=pribl+50;
+                    if (data.getMinutes()<10){
+                         add_row(numb,data.getHours()+":0"+data.getMinutes(),"Комиссия",electro,"50","1");
+                     }
+                     else{
+                         add_row(numb,data.getHours()+":"+data.getMinutes(),"Комиссия",electro,"50","1");
+                                     }
+                        tisychnaya=tisychnaya-1;
+                } else {
+                    alert ("Недостаточно средств");
+                    document.getElementById("info").innerHTML="";
+                    document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+            
+            }
+            }else if (pytisotka>1){
+                if (money>=1050){
+                    alert("Заберите деньги");
+                    money=money-1050;
+                    cum=cum+50;
+                    document.getElementById("info").innerHTML="";
+                    document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+                    data=new Date();
+                    numb=numb+1;
+                    if (numb==1){
+                         nachal=data.getHours();
+                     }
+                    pribl=pribl+50;
+                    if (data.getMinutes()<10){
+                         add_row(numb,data.getHours()+":0"+data.getMinutes(),"Комиссия",electro,"50","1");
+                     }
+                     else{
+                         add_row(numb,data.getHours()+":"+data.getMinutes(),"Комиссия",electro,"50","1");
+                                     }
+                        pytisotka=pytisotka-2;
+                } else {
+                    alert ("Недостаточно средств");
+                    document.getElementById("info").innerHTML="";
+                    document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+            
+            }
+
+            } else if (sotka>9){
+                if (money>=1050){
+                    alert("Заберите деньги");
+                    money=money-1050;
+                    cum=cum+50;
+                    document.getElementById("info").innerHTML="";
+                    document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+                    data=new Date();
+                    numb=numb+1;
+                    if (numb==1){
+                         nachal=data.getHours();
+                     }
+                    pribl=pribl+50;
+                    if (data.getMinutes()<10){
+                         add_row(numb,data.getHours()+":0"+data.getMinutes(),"Комиссия",electro,"50","1");
+                     }
+                     else{
+                         add_row(numb,data.getHours()+":"+data.getMinutes(),"Комиссия",electro,"50","1");
+                                     }
+                        sotka=sotka-10;
+                } else {
+                    alert ("Недостаточно средств");
+                    document.getElementById("info").innerHTML="";
+                    document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+            
+            }
+            }else {
+                alert ("Извините нет подходящих купюр");
+                document.getElementById("info").innerHTML="";
+                document.getElementById("infomoney").innerHTML="";
+                    pin.style.top="-240px";
+                    us.style.top="150px";
+                    document.getElementById("vvod").innerHTML="Баланс: "+money+"₽";
+                    pl.style.top="320px";
+                    min.style.top="320px";
+                    sto.style.top="-235px";
+                    pytsot.style.top="-235px";
+                    tisyacha.style.top="-300px";
+            }
+            }
+            //Сломать
+            function broke(){
+                if (problem!=2){
+                problem=2;
+                alert ("Сломался купюроприемник");
+                } else{
+                    alert ("Уже как бы сломано");
+                }
+                
+            }
+            //Ремонт
+            function sos(){
+                if (problem==0){
+                    alert ("Проблем нет");
+                }
+                if (problem==1){
+                problem=0;
+                alert ("Проблема решена, извините за неудобство");
+                kit=kit+100;
+                
+                if (data.getMinutes()<10){
+                         add_row(null,data.getHours()+":0"+data.getMinutes(),"Ремонт/Код ошибки:1","100",null,"1");
+                     }
+                     else{
+                        add_row(null,data.getHours()+":"+data.getMinutes(),"Ремонт/Код ошибки:1","100",null,"1");
+                                     }
+                } 
+                if (problem==2){
+                problem=0;
+                alert ("Проблема решена, извините за неудобство");
+                kit=kit+100;
+                if (data.getMinutes()<10){
+                         add_row(null,data.getHours()+":0"+data.getMinutes(),"Ремонт/Код ошибки:2","100",null,"1");
+                     }
+                     else{
+                        add_row(null,data.getHours()+":"+data.getMinutes(),"Ремонт/Код ошибки:2","100",null,"1");
+                                     }
+                } 
+                if (problem==3){
+                problem=0;
+                alert ("Купюры пополнены");
+                kit=kit+100;
+                sotka=10;
+                pytisotka=10;
+                tisychnaya=10;
+                if (data.getMinutes()<10){
+                         add_row(null,data.getHours()+":0"+data.getMinutes(),"Пополнение","100",null,"1");
+                     }
+                     else{
+                        add_row(null,data.getHours()+":"+data.getMinutes(),"Пополнение","100",null,"1");
+                                     }
+                } 
+            }
+            //Расчет общей прибыли
+            function prib(){
+                if (numb!=0){
+                data=new Date();
+                if((data.getHours()-nachal)!=0){
+                zatr=(data.getHours()-nachal)*electro;
+                }
+                else{
+                   zatr=electro+kit;
+                   
+                }
+                
+                add_p(numb,zatr,pribl,pribl-zatr,"1");
+                con=(pribl-zatr+pribl2-zatr2+pribl3-zatr3).toFixed(2);
+                document.getElementById("priblobshaya").innerHTML="Общая прибыль:"+con+"₽";
+            } else {
+                alert ("Еще не было ни одной транзакции");
+            }
+            }
+            //Вывод в таблицу
+            function add_row(numb,time,type,zatr,summ,term){
+                let row="<tr><td>"+numb+"</td><td>"+time+"</td><td>"+type+"</td><td>"+"-"+zatr+"₽"+"</td><td>"+"+"+summ+"₽"+"</td><td>"+"№"+term+"</td></tr>";
+                document.getElementById("table").innerHTML+=row;
+            }
+            //Вывод во вторую таблицу
+            function add_p(numb,zatr,pribl,pribll,term){
+                let row="<tr><td>"+numb+"</td><td>"+zatr+"₽"+"</td><td>"+pribl+"₽"+"</td><td>"+pribll+"₽"+"</td><td>"+"№"+term+"</td></tr>";
+                document.getElementById("table2").innerHTML+=row;
+            }
+            function add_svaz(svaz,term){
+                let row="<tr><td>"+svaz+"</td><td>"+"</td><td>"+"</td><td>"+"</td><td>"+"№"+term+"</td></tr>";
+                document.getElementById("table2").innerHTML+=row;
+            }
+            function zapusk(){
+                if (start==0){
+                    start=1;
+                id=setInterval(function(){
+                    data=new Date();
+                    var svaz1=Math.floor(Math.random()*5);
+                    if (svaz1!=4){
+                    num2=num2+Math.floor(Math.random()*3);
+                    pribl2=num2*50;
+                    kit2=100*Math.floor(Math.random()*2);;
+                    zatr2=electro*data.getHours()+kit2;
+                    add_p(num2,zatr2.toFixed(),pribl2,(pribl2-zatr2).toFixed(),"2");
+                    } else {
+                    add_svaz("Связь потеряна","2");
+                    }
+                    var svaz2=Math.floor(Math.random()*5);
+                    if (svaz2!=4){
+                    num3=num3+Math.floor(Math.random()*3);
+                    pribl3=num3*50;
+                    kit3=100*Math.floor(Math.random()*2);;
+                    zatr3=electro*data.getHours()+kit3;
+                    add_p(num3,zatr3.toFixed(),pribl3,(pribl3-zatr3).toFixed(),"3");
+                } else {
+                    add_svaz("Связь потеряна","3");
+                }
+                con=(pribl-zatr+pribl2-zatr2+pribl3-zatr3).toFixed(2);
+                document.getElementById("priblobshaya").innerHTML="Общая прибыль:"+con+"₽";
+                },1000);
+                }
+            }
+            function ostanovka(){
+                clearInterval(id);
+                start=0;
+            }
+        </script>
+    </body>
+        </html>
