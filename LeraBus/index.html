@@ -1,0 +1,333 @@
+<!DOCTYPE hyml>
+<html lang="ru">
+    <head>  
+        <title>Диспетчерская служба автобусов</title>
+        <link rel="shortcut icon" href="bus.png" type="image/png">
+        <meta charset="utf-8">
+        <style>
+            th, td:first-child {
+                background: #AFCDE7;
+                color: white;
+                padding: 10px 10px;
+            }
+            th, td {
+                border-style: solid;
+                border-width: 0 1px 1px 0;
+                border-color: white;
+            }
+            td {
+                background: #D8E6F3;
+            }
+                th:first-child, td:first-child {
+                text-align: left;
+            }
+            .table1{
+                overflow: auto;
+                font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+                font-size: 14px;
+                border-collapse: collapse;
+                text-align: center;
+                position : absolute ;
+                 width: 680px; 
+                 height: 600px; 
+                 top: 15px; 
+                 left: 680px;
+            
+            }
+        </style>
+    </head>
+    <body bgcolor="#9381d9">
+        <div class="table1">
+            <table id="table" >
+                <tr>
+                    <th>Маршрут</th>
+                    <th>Номер автобуса</th>
+                    <th>Кол-во пассажиров</th>
+                    <th>Доход</th>
+                    <th>Затраты</th>
+                    <th>Прибыль</th>
+                </tr>
+            </table>
+        </div>
+        <!-- Картинки -->
+    <!-- <img id="autobus" src="autobus.png" style="position : absolute ; width: 300px; height: 100px; top: 200px; left: 100px;"> -->
+        <div id="clock" style="position : absolute ;  font-size: 15; top: 645px; left: 1140px;"></div><!-- Часы -->
+        <img id="cat" src="cat.gif" style="position : absolute ; width: 100px; height: 100px; top: 10px; left: 0px;">
+        <img id="dot11" src="dot1.png" style="position : absolute ; width: 100px; height: 60px; top: -1000px; left: 390px;">
+        <img id="dot21" src="dot2.png" style="position : absolute ; width: 100px; height: 60px; top: -1000px; left: 390px;">
+        <img id="dot22" src="dot2.png" style="position : absolute ; width: 100px; height: 60px; top: -1000px; left: 430px;">
+        <img id="dot23" src="dot2.png" style="position : absolute ; width: 100px; height: 60px; top: -1000px; left: 470px;">
+        <img id="dot24" src="dot2.png" style="position : absolute ; width: 100px; height: 60px; top: -1000px; left: 510px;">
+        <img id="dot31" src="dot2.png" style="position : absolute ; width: 100px; height: 60px; top: -1000px; left: 390px;">
+        <img id="dot32" src="dot2.png" style="position : absolute ; width: 100px; height: 60px; top: -1000px; left: 430px;">
+        <img id="dot33" src="dot2.png" style="position : absolute ; width: 100px; height: 60px; top: -1000px; left: 470px;">
+        <img id="dot41" src="dot2.png" style="position : absolute ; width: 100px; height: 60px; top: -1000px; left: 390px;">
+        <img id="dot42" src="dot2.png" style="position : absolute ; width: 100px; height: 60px; top: -1000px; left: 430px;">
+        <img id="dot43" src="dot2.png" style="position : absolute ; width: 100px; height: 60px; top: -1000px; left: 470px;">
+        <!-- Кнопки -->
+    <button onclick="zapusk();"  style="position : absolute; width: 200px; height: 60px; top: 30px; left: 100px; background: green; border-radius: 10px;">Старт</button>
+    <button onclick="ostanovka();"  style="position : absolute; width: 200px; height: 60px; top: 100px; left: 100px; background: red;border-radius: 10px;">Стоп</button>
+    <button onclick="check();" id="check1" style="position : absolute; width: 70px; height: 30px; top: 250px; left: 160px; background: gold;border-radius: 10px;">Ускорить</button>
+    <button onclick="vost();"  id="vost1" style="position : absolute; width: 70px; height: 30px; top: -250px; left: 160px; background: blue;border-radius: 10px;">Вернуть</button>
+    <button onclick="remont();" id="remont1" style="position : absolute; width: 80px; height: 30px; top: -50px; left: 315px; background: grey;border-radius: 10px;">Исправить</button>
+    <button onclick="remontt();" id="remontt1" style="position : absolute; width: 80px; height: 30px; top: -50px; left: 315px; background: grey;border-radius: 10px;">Исправить</button>
+    <button onclick="back();" id="back1" style="position : absolute; width: 70px; height: 30px; top: -50px; left: 315px; background: grey;border-radius: 10px;">Вернуть</button>
+    <button onclick="broke();" id="broke1" style="position : absolute; width: 80px; height: 60px; top: 450px; left: 160px; background: rgb(147, 4, 241);border-radius: 10px;">Перекрыть выезд с города</button>
+    <p style="position : absolute;  top: 180px; left: 135px;">Уровень нагрузки:<br> <input type="range" min="1" max="10" id="size" oninput="levelnag()" value="1" ></p>
+    <p id ="marshrut1" style="position : absolute ; top: 25px; left: 395px; font-size: 25;">
+            Маршрут 249:
+    </p>
+    <p id ="marshrut2" style="position : absolute ; top: 225px; left: 395px; font-size: 25;">
+            Маршрут 207:
+    </p>
+    <p id ="marshrut3" style="position : absolute ; top: 425px; left: 395px; font-size: 25;">
+            Маршрут 110с:
+    </p>
+    <p id ="marshrut3" style="position : absolute ; font-size: 15; top: 630px; left: 1200px;">
+        (c) БАШАВТОТРАНС
+    </p>
+        <script>
+            //Переменные
+            var numb1=0;
+            var numb2=0;
+            var numb3=0;
+            var numb4=0;
+            var numb5=0;
+            var numb6=0;
+            var numb7=0;
+            var numb8=0;
+            var numb9=0;
+            var numb10=0;
+            var tl=5000;
+            var tl2=7000;
+            var tl3=10000;
+            var timeleps=false;
+            var remont2=0;
+            var remont3=0;
+            var kit=0;
+            
+            function check(){
+                clearInterval(id1);
+                clearInterval(id2);
+                clearInterval(id3);
+                 tl=1000;
+                 tl2=2000;
+                 tl3=3000;
+                 proverka=1;
+                 zapusk()
+                 check1.style.top="-250px";
+                 vost1.style.top="250px";
+                
+                  
+
+            }
+            function vost(){
+                clearInterval(id1);
+                clearInterval(id2);
+                clearInterval(id3);
+
+                 tl=5000;
+                 tl2=7000;
+                 tl3=10000;
+                 proverka=0;
+                 zapusk()
+                 check1.style.top="250px";
+                 vost1.style.top="-250px";
+            }
+            function levelnag(){
+                size = document.getElementById("size").value;
+                if (size<2){
+                    dot21.style.top="-100px";
+                    dot31.style.top="-300px";
+                    dot41.style.top="-500px";
+                    
+                }
+                if (size>1){
+                    if (remont2!=1){
+                    dot21.style.top="100px";
+                    }
+                    dot31.style.top="300px";
+                    if (remont2!=2){
+                    dot41.style.top="500px"; 
+                    }                   
+                } 
+                if (size<6){
+                    dot22.style.top="-100px";
+                    dot32.style.top="-300px";
+                    dot42.style.top="-500px";
+                }
+                if (size>5){
+                    dot22.style.top="100px";
+                    dot32.style.top="300px";
+                    if (remont2!=2){
+                    dot42.style.top="500px";
+                    }
+                } 
+                if (size<8){
+                    dot23.style.top="-100px";
+                }
+                if (size>7){
+                    dot23.style.top="100px";
+                }
+                if (size<10){
+                    dot24.style.top="-100px";
+                    dot33.style.top="-300px";
+                    dot43.style.top="-500px";
+                }
+                if (size>9){
+                    dot24.style.top="100px";
+                    dot33.style.top="300px";
+                    if (remont2!=2){
+                    dot43.style.top="500px";
+                    }
+                } 
+
+            }
+            function zapusk(){
+                id1=setInterval(function(){
+                    if (size>1&&remont2!=1){
+                        numb1=Math.floor(Math.random()*200);
+                        var dohod1=numb1*25;
+                        var razhod1=1000;
+                        
+                        var random=Math.floor(Math.random()*200);
+                        if (random<190){
+                    add_row("249","x110cc",numb1,dohod1,"Бензин+Работа:"+razhod1+"<br>"+"Ремонт:"+kit,dohod1-razhod1-kit);   
+                        kit=0;
+                        } else {
+                            alert ("Сломался автобус!");
+                            remont1.style.top="50px";
+                            remont2=1;
+                            dot21.style.top="-100px";
+                            dot11.style.top="100px";
+                        }
+                    }   
+                    if (size>5){
+                        numb1=Math.floor(Math.random()*200);
+                        var dohod1=numb1*25;
+                        var razhod1=1000;
+
+                    add_row("249","о090рв",numb1,dohod1,"Бензин+Работа:"+razhod1+"<br>"+"Ремонт:"+"0",dohod1-razhod1);
+                    }
+                    if (size>7){
+                        numb1=Math.floor(Math.random()*200);
+                        var dohod1=numb1*25;
+                        var razhod1=1000;
+
+                    add_row("249","р899рр",numb1,dohod1,"Бензин+Работа:"+razhod1+"<br>"+"Ремонт:"+"0",dohod1-razhod1);
+                    }
+                    if (size>9){
+                        numb1=Math.floor(Math.random()*200);
+                        var dohod1=numb1*25;
+                        var razhod1=1000;
+
+                    add_row("249","р555оо",numb1,dohod1,"Бензин+Работа:"+razhod1+"<br>"+"Ремонт:"+"0",dohod1-razhod1);
+                    }
+                
+                },tl);
+                id2=setInterval(function(){
+                    if (size>1){
+                        numb2=Math.floor(Math.random()*150);
+                        var dohod2=numb2*30;
+                        var razhod2=900;
+
+                    add_row("207","о010ос",numb2,dohod2,"Бензин+Работа:"+razhod2+"<br>"+"Ремонт:"+"0",dohod2-razhod2);
+                    }
+                    if (size>5){
+                        numb2=Math.floor(Math.random()*150);
+                        var dohod2=numb2*30;
+                        var razhod2=900;
+
+                    add_row("207","т789хс",numb2,dohod2,"Бензин+Работа:"+razhod2+"<br>"+"Ремонт:"+"0",dohod2-razhod2);
+                    }
+                    if (size>9){
+                        numb2=Math.floor(Math.random()*150);
+                        var dohod2=numb2*30;
+                        var razhod2=900;
+
+                    add_row("207","х101тк",numb2,dohod2,"Бензин+Работа:"+razhod2+"<br>"+"Ремонт:"+"0",dohod2-razhod2);
+                    }
+                },tl2);
+                id3=setInterval(function(){
+                    if (size>1&&remont3!=2){
+                        numb3=Math.floor(Math.random()*170);
+                        var dohod3=numb3*28;
+                        var razhod3=950;
+
+                    add_row("110c","е010ее",numb3,dohod3,"Бензин+Работа:"+razhod3+"<br>"+"Ремонт:"+"0",dohod3-razhod3);
+                    }
+                    if (size>5&&remont3!=2){
+                        numb3=Math.floor(Math.random()*170);
+                        var dohod3=numb3*28;
+                        var razhod3=950;
+
+                    add_row("110c","о700оо",numb3,dohod3,"Бензин+Работа:"+razhod3+"<br>"+"Ремонт:"+"0",dohod3-razhod3);
+                    }
+                    if (size>9&&remont3!=2){
+                        numb3=Math.floor(Math.random()*170);
+                        var dohod3=numb3*28;
+                        var razhod3=950;
+
+                    add_row("110c","в000оо",numb3,dohod3,"Бензин+Работа:"+razhod3+"<br>"+"Ремонт:"+"0",dohod3-razhod3);
+                    }
+                },tl3);
+            }
+            function broke(){
+                document.getElementById("marshrut3").innerHTML="✖Маршрут 110с:";
+                remont3=2;
+                remontt1.style.top="450px";
+                alert (remont3);
+                
+            }
+            function remont(){
+                if (remont2==1){
+                    alert ("Отправили бригаду ремонтников");
+                    remont2=0;
+                    size = document.getElementById("size").value;
+                    if (size>1){
+                    dot21.style.top="100px";
+                    }
+                    dot11.style.top="-100px";
+                    kit=kit+1000;
+                    remont1.style.top="-50px";
+                    
+                } 
+                
+            }
+            function remontt(){
+                if(remont3==2){
+                    remont3=0;
+                    alert ("Маршрут изменен");
+                    document.getElementById("marshrut3").innerHTML="Маршрут 110с:(Изменен)";
+                    remontt1.style.top="-450px";
+                    back1.style.top="450px";
+                    
+                }
+            }
+            function back(){
+                document.getElementById("marshrut3").innerHTML="Маршрут 110с:";
+                back1.style.top="-450px";
+            }
+            function ostanovka(){
+                clearInterval(id1);
+                clearInterval(id2);
+                clearInterval(id3);
+            }
+            //Вывод в таблицу
+            function add_row(marshrut,bus,numb,dohod,zatrati,pribl){
+                let row="<tr><td>"+"№"+marshrut+"</td><td>"+bus+"</td><td>"+numb+"чел."+"</td><td>"+dohod+"руб."+"</td><td>"+zatrati+"руб."+"</td><td>"+pribl+"руб."+"</td></tr>";
+                document.getElementById("table").innerHTML+=row;
+            }
+            //Часы
+            window.onload=function(){
+                window.setInterval(function(){
+                var now = new Date();
+                var clock = document.getElementById("clock");
+                clock.innerHTML=now.toLocaleTimeString();
+
+                }, 1000);
+            };
+        </script>
+    </body>
+
+</html>
